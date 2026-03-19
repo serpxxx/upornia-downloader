@@ -20,7 +20,7 @@ Upornia Downloader is a browser extension for users who want a cleaner way to sa
 
 ## Preview
 
-![Upornia Downloader workflow preview](assets/workflow-preview.svg)
+![Upornia Downloader workflow preview](assets/workflow-preview.webp)
 
 ## Table of Contents
 
