@@ -1,342 +1,167 @@
-# Upornia Downloader Browser Extension (Chrome, Firefox, Edge, Opera, Brave)
+# Upornia Downloader (Browser Extension)
 
+> Download supported Upornia videos as MP4 files from the browser with direct quality selection.
 
-## Related
+Upornia Downloader is a browser extension for users who want a cleaner way to save supported Upornia videos without relying on generic downloader sites or manual stream extraction. It detects supported video pages in the browser, exposes the available qualities, and exports finished downloads as MP4 for easier playback later.
 
----
-<details>
-<summary>
-  Research
-</summary>
-# How to Download Upornia Videos: Technical Analysis of Stream Patterns, CDNs, and Download Methods
-*A comprehensive research document analyzing Upornia's video infrastructure, embed patterns, stream formats, and optimal download strategies using modern tools*
-**Authors**: SERP Apps  
-**Date**: December 2025  
-**Version**: 1.0
----
-- [Upornia Downloader gist](https://gist.github.com/devinschumacher/e93fdeb800544a6cdf7e7ee2fe4e2207)
-## Abstract
+- Download supported Upornia videos directly from the page
+- Choose from the quality options exposed by the source
+- Save finished files as standard MP4
+- Use in-page controls, popup controls, or right-click actions
+- Keep downloads organized in a dedicated folder
 
-This research document provides a technical overview of Upornia's video delivery pipeline, including KVS-style player configuration, HLS/MP4 assets, and CDN request patterns used for playback and downloads.
+## Links
+
+- :rocket: Get it here: [Upornia Downloader](https://serp.ly/upornia-downloader)
+- :new: Latest release: [GitHub Releases](https://github.com/serpapps/upornia-downloader/releases/latest)
+- :question: Help center: [SERP Help](https://help.serp.co/en/)
+- :beetle: Report bugs: [GitHub Issues](https://github.com/serpapps/upornia-downloader/issues)
+- :bulb: Request features: [Feature Requests](https://github.com/serpapps/upornia-downloader/issues)
+
+## Preview
+
+![Upornia Downloader workflow preview](assets/workflow-preview.svg)
 
 ## Table of Contents
 
-1. [Introduction](#1-introduction)
-2. [Upornia Video Infrastructure Overview](#2-upornia-video-infrastructure-overview)
-3. [URL Patterns and Detection](#3-url-patterns-and-detection)
-4. [Stream Formats and CDN Analysis](#4-stream-formats-and-cdn-analysis)
-5. [yt-dlp Implementation Strategies](#5-yt-dlp-implementation-strategies)
-6. [FFmpeg Processing Techniques](#6-ffmpeg-processing-techniques)
-7. [Alternative Tools and Backup Methods](#7-alternative-tools-and-backup-methods)
-8. [Upornia API Integration](#8-upornia-api-integration)
-9. [Implementation Recommendations](#9-implementation-recommendations)
-10. [Troubleshooting and Edge Cases](#10-troubleshooting-and-edge-cases)
-11. [Conclusion](#11-conclusion)
+- [Why Upornia Downloader](#why-upornia-downloader)
+- [Features](#features)
+- [How It Works](#how-it-works)
+- [Step-by-Step Tutorial: How to Download Videos from Upornia](#step-by-step-tutorial-how-to-download-videos-from-upornia)
+- [Supported Formats](#supported-formats)
+- [Who It's For](#who-its-for)
+- [Common Use Cases](#common-use-cases)
+- [Troubleshooting](#troubleshooting)
+- [Trial & Access](#trial--access)
+- [Installation Instructions](#installation-instructions)
+- [FAQ](#faq)
+- [Notes](#notes)
+- [License](#license)
+- [About Upornia](#about-upornia)
 
----
+## Why Upornia Downloader
 
-## 1. Introduction
+Upornia pages use streaming playback that is not designed around direct local saving. Generic downloaders often fail to detect the source cleanly, which leaves users with an awkward workflow for something that should be straightforward.
 
-Upornia is a video hosting site that commonly uses a KVS-style player configuration with MP4 and HLS variants. The site exposes direct media URLs in player configuration blocks or inline JavaScript, which can be extracted and downloaded with standard tooling.
+Upornia Downloader is built specifically for supported Upornia pages. It gives you a direct browser-based workflow for detecting the media, choosing a quality, and exporting the final video as MP4 without leaving the page.
 
-### 1.1 Research Scope
+## Features
 
-- Upornia watch pages and embed endpoints
-- Player configuration payloads (flashvars, JSON, or inline scripts)
-- HLS manifests and MP4 direct file URLs
-- Common CDN hostnames and URL query patterns
+- Video downloads from supported Upornia pages
+- Quality selection for available stream variants
+- In-page controls on supported video pages
+- Popup workflow for starting and managing downloads
+- Right-click access for a faster saving flow
+- MP4 output for easier playback and transfer
+- Automatic saving into a dedicated UPORNIA folder
+- Cross-browser support for Chrome, Edge, Brave, Opera, Firefox, Whale, and Yandex
 
-### 1.2 Methodology
+## How It Works
 
-- Inspect player initialization scripts for video_url, hls, and file keys
-- Capture network requests while playback starts
-- Validate URLs with yt-dlp and ffprobe
-- Document stream variants by quality and codec
+1. Install the extension from the latest release.
+2. Open Upornia and go to the video page you want to save.
+3. Start playback so the extension can detect the media.
+4. Open the popup or use the on-page controls.
+5. Choose the quality option you want.
+6. Start the download and wait for the MP4 export to finish.
+7. Save the final file locally.
 
----
+## Step-by-Step Tutorial: How to Download Videos from Upornia
 
-## 2. Upornia Video Infrastructure Overview
+1. Install Upornia Downloader from the latest GitHub release.
+2. Open Upornia and navigate to the video page you want.
+3. Let the player load fully and press play.
+4. Click the extension button or use the on-page download control.
+5. Review the quality options shown by the extension.
+6. Choose the version you want and begin the download.
+7. Wait for the MP4 file to finish exporting.
+8. Open the finished file from your Downloads folder.
 
-### 2.1 Video Hosting Types
+## Supported Formats
 
-- Direct MP4 files hosted on CDN
-- HLS streams exposed via m3u8 playlists
-- Thumbnail and preview assets hosted on static subdomains
+- Input: Supported Upornia videos
+- Output: MP4
 
-### 2.2 CDN Architecture
+Saved files use MP4 so they are easier to replay on standard media players, move between devices, or archive locally.
 
-- Primary site domain: upornia.com
-- CDN patterns: cdn.upornia.com, s1.upornia.com, s2.upornia.com
-- KVS get_file endpoint as the gateway to media assets
+## Who It's For
 
-### 2.3 Video Processing Pipeline
+- Upornia users who want offline copies of supported videos
+- Users who want direct browser-based saving instead of external tools
+- People who want quality selection before downloading
+- Anyone organizing personal downloads into a cleaner local library
 
-1. User loads watch page
-2. Player script assembles flashvars / JSON config
-3. video_url or hls_url is resolved via get_file
-4. Client requests MP4 or m3u8 from CDN
+## Common Use Cases
 
-### 2.4 Access Control and Authentication
+- Save a supported Upornia video for offline viewing
+- Download the best quality exposed by the page
+- Keep a local copy for later playback
+- Start downloads directly from the player or extension popup
+- Avoid generic downloader sites and manual stream extraction
 
-- Most public videos are accessible without auth
-- Some videos require session cookies or age gate confirmation
-- Signed URLs may expire; capture fresh URLs near download time
+## Troubleshooting
 
----
+**The extension is not detecting the video**  
+Press play first and wait a few seconds so the media has time to initialize.
 
-## 3. URL Patterns and Detection
+**The page control is missing**  
+Open the extension popup directly. Some supported pages work better through the popup UI.
 
-### 3.1 Watch Page URL Patterns
+**Only one quality option is listed**  
+That usually means the page is exposing a single playable stream variant.
 
-```
-https://upornia.com/video/<slug>/
-https://upornia.com/video/<id>/<slug>/
-https://upornia.com/videos/<slug>/
-```
+**The download failed partway through**  
+Check your connection and refresh the page before starting again.
 
-### 3.2 Embed URL Patterns
+**The page requires account access**  
+The extension only works on media you can already open and play in your active browser session.
 
-```
-https://upornia.com/embed/<id>
-https://upornia.com/embed/<id>?autoplay=1
-```
+## Trial & Access
 
-### 3.3 Direct Media and CDN URL Patterns
+- Includes **3 free downloads** so you can test the workflow first
+- Email sign-in uses secure one-time password verification
+- No credit card required for the trial
+- Unlimited downloads are available with a paid license
 
-```
-https://upornia.com/get_file/<hash>/<id>/<quality>.mp4
-https://upornia.com/get_file/<hash>/<id>/playlist.m3u8
-https://cdn.upornia.com/videos/<id>/<file>.mp4
-```
+Start here: [https://serp.ly/upornia-downloader](https://serp.ly/upornia-downloader)
 
-### 3.4 Regex Patterns for URL Extraction
+## Installation Instructions
 
-```regex
-upornia\.com/video/([A-Za-z0-9_-]+)
-upornia\.com/embed/([0-9]+)
-get_file/[^/]+/([0-9]+)/
-```
+1. Open the latest release page:
+   [https://github.com/serpapps/upornia-downloader/releases/latest](https://github.com/serpapps/upornia-downloader/releases/latest)
+2. Download the extension build for your browser.
+3. Install the extension.
+4. Open Upornia and navigate to a supported video page.
+5. Use the extension controls to start downloading.
 
-### 3.5 Command-line URL Extraction
+## FAQ
 
-```bash
-grep -oE "https?://[^'\" ]+\.(mp4|m3u8|m4s|ts)" page.html | sort -u
-grep -oE "upornia\.com/(video|embed)/[^'\" ]+" page.html | sort -u
-```
+**Can I download Upornia videos directly from the page?**  
+Yes. Supported video pages can be downloaded directly through the extension.
 
----
+**What file format do downloads use?**  
+Videos are saved as MP4 files.
 
-## 4. Stream Formats and CDN Analysis
+**Can I choose the quality?**  
+Yes. The extension lists the stream variants exposed by the source page.
 
-### 4.1 Stream Formats
+**Where are videos saved?**  
+They are saved to your default Downloads location, typically inside an UPORNIA subfolder.
 
-| Format | Extension | Notes |
-|--------|-----------|-------|
-| MP4 (progressive) | .mp4 | Direct file URLs; easiest to download |
-| HLS (adaptive) | .m3u8 | Playlist-based; download via yt-dlp or ffmpeg |
-| fMP4 segments | .m4s | Segmented assets referenced by HLS playlists |
+**Do I need extra software?**  
+No. Everything runs through the browser extension.
 
-### 4.2 Typical Quality Ladder
+## Notes
 
-| Quality | Typical Resolution | Notes |
-|---------|--------------------|-------|
-| Low | 360p - 480p | Fast preview streams or mobile variants |
-| Medium | 720p | Common default for web playback |
-| High | 1080p+ | Available when source uploads are higher quality |
+- Only download content you own or have explicit permission to save
+- An internet connection is required for downloads
+- Source quality depends on the media exposed by Upornia
+- Some pages may require account access or site-specific permissions
 
-### 4.3 CDN URL Construction and Query Parameters
+## License
 
-- get_file URLs often include a hash segment and short-lived tokens
-- Quality is commonly encoded in the filename or path
-- Referer and Origin headers can affect access
+This repository includes an MIT license in [LICENSE.md](LICENSE.md).
 
-### 4.4 Validation and Inspection Commands
+## About Upornia
 
-```bash
-ffprobe -hide_banner -show_streams "video.mp4"
-ffprobe -hide_banner -show_format "video.mp4"
-ffprobe -hide_banner -i "playlist.m3u8"
-```
-
----
-
-## 5. yt-dlp Implementation Strategies
-
-yt-dlp can parse direct MP4 URLs or HLS manifests. Use cookies when content is gated and prefer format selection to control quality.
-
-### 5.1 Basic Usage
-
-```bash
-yt-dlp [OPTIONS] [--] URL [URL...]
-yt-dlp -F "https://example.com/watch/123"
-```
-
-### 5.2 Authentication and Cookies
-
-- Use --cookies-from-browser to re-use a logged-in session if required
-- Pass referer headers with --add-header when the CDN enforces origin checks
-
-### 5.3 Format Selection and Output Templates
-
-```bash
-yt-dlp -f bestvideo+bestaudio/best "URL"
-yt-dlp -o "%(title)s.%(ext)s" "URL"
-yt-dlp --download-archive archive.txt "URL"
-```
-
-### 5.4 Site-Specific Examples
-
-```bash
-yt-dlp "https://upornia.com/video/<slug>/"
-yt-dlp -F "https://upornia.com/video/<slug>/"
-yt-dlp -f best "https://upornia.com/video/<slug>/"
-```
-
-### 5.5 Batch and Archive Mode
-
-```bash
-yt-dlp -a urls.txt --download-archive archive.txt
-yt-dlp --no-overwrites --continue "URL"
-```
-
-### 5.6 Error Handling Patterns
-
-- Use --retries and --fragment-retries for flaky HLS
-- If 403/401 occurs, refresh cookies or add referer headers
-- Use --downloader aria2c for large MP4 files
-
----
-
-## 6. FFmpeg Processing Techniques
-
-FFmpeg is useful for remuxing HLS playlists into MP4 and validating codecs without re-encoding.
-
-### 6.1 Inspect and Validate Streams
-
-```bash
-ffprobe -hide_banner -i "playlist.m3u8"
-ffmpeg -i "playlist.m3u8" -c copy output.mp4
-```
-
-### 6.2 Common Remux and Repair Patterns
-
-```bash
-ffmpeg -i "playlist.m3u8" -c copy output.mp4
-ffmpeg -i input.mp4 -c copy -movflags +faststart output.mp4
-ffprobe -hide_banner -show_streams output.mp4
-```
-
----
-
-## 7. Alternative Tools and Backup Methods
-
-### 7.1 Streamlink
-
-```bash
-streamlink "https://upornia.com/video/<slug>/" best -o output.mp4
-streamlink --loglevel debug "URL" best
-```
-
-### 7.2 aria2c
-
-```bash
-aria2c -o video.mp4 "https://cdn.upornia.com/videos/<id>/<file>.mp4"
-aria2c -i urls.txt -j 4
-```
-
-### 7.3 gallery-dl
-
-```bash
-gallery-dl "https://upornia.com/video/<slug>/"
-gallery-dl -g "URL"
-```
-
-### 7.4 Browser DevTools
-
-- Filter Network tab for m3u8, mp4, or get_file requests
-- Check player initialization scripts for video_url or hls_url
-- Copy request URL as cURL to preserve headers
-
----
-
-## 8. Upornia API Integration
-
-### 8.1 Known Endpoints
-
-- None documented; rely on page and player data extraction
-
-### 8.2 Example Requests
-
-```
-# No public API calls identified; extract URLs from HTML/player data
-```
-
-### 8.3 Token and Session Handling
-
-- Many KVS deployments do not expose a documented API
-- If a tokenized endpoint exists, capture it from the player payload
-
----
-
-## 9. Implementation Recommendations
-
-### 9.1 Detection Hierarchy
-
-- Parse inline player config for direct MP4 URLs
-- Fallback to HLS playlist URLs (m3u8)
-- If both are absent, scan Network logs for get_file requests
-
-### 9.2 Site-Specific Notes
-
-- Prefer direct MP4 when available for fastest downloads
-- Cache resolved URLs briefly; refresh if tokenized
-- Surface download buttons near player and in grids where possible
-
-### 9.3 Storage and Naming Strategy
-
-- Use %(title)s.%(ext)s output templates to preserve context
-- Store archives to prevent duplicate downloads
-
----
-
-## 10. Troubleshooting and Edge Cases
-
-- HLS playlists may rotate segments; retry on 404
-- Age-gate or consent modals can block player config
-- Some videos are externally embedded and require provider-specific handling
-
----
-
-## 11. Conclusion
-
-Upornia uses a KVS-style delivery model with MP4 and HLS variants. A robust downloader should first parse player config for direct media URLs, then fall back to HLS manifests and network inspection. yt-dlp remains the primary extraction tool, with ffmpeg and streamlink as reliable backups.
-
-| Tool | Best Use Case | Notes |
-|------|---------------|-------|
-| yt-dlp | Primary downloader for MP4/HLS | Supports cookies, format selection, retries |
-| ffmpeg | Remuxing and validation | Useful for HLS to MP4 conversion |
-| streamlink | Live/HLS fallback | Streams to file or pipes into ffmpeg |
-| aria2c | Multi-connection HTTP/HLS downloads | Good for large files and retries |
-| gallery-dl | Image-first or gallery-heavy sites | Best for gallery or attachment extraction |
-
-
----
-
-## Disclaimer and Ethical Use
-
-This document is provided for lawful, personal, or authorized use cases only. Always respect the site terms of service, content creator rights, and applicable laws. If DRM or explicit access controls are present, do not attempt to bypass them; use official downloads or creator-provided access instead.
-
-## Last Updated
-
-December 2025
-
-## Next Review
-
-90 days from last update or when site playback changes are observed.
-
-## Related
-
-- SERP Apps research index (internal)
-- SERP extension downloaders (internal)
-
-</details>
+Upornia is a streaming-focused site where users often want a simple offline copy for later viewing, but the playback layer is not designed around direct file saving. Upornia Downloader simplifies that workflow with in-browser detection, quality selection, and MP4 export.
