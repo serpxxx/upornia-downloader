@@ -1,4 +1,4 @@
-# Upornia Downloader
+# Upornia Downloader Browser Extension
 
 > Download supported Upornia videos as MP4 files from the browser with direct quality selection.
 
