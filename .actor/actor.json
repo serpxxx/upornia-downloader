@@ -5,6 +5,6 @@
   "input": "./INPUT_SCHEMA.json",
   "name": "upornia-downloader",
   "readme": "../ACTOR.md",
-  "title": "Upornia Downloader",
+  "title": "Upornia Downloader Browser Extension",
   "version": "0.0"
 }
